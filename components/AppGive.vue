@@ -41,7 +41,7 @@ export default defineComponent({
   methods: {
     handleClick(dir) {
       this.$emit('selectDir', dir)
-      console.log(dir)
+      // console.log(dir)
     },
   },
 })

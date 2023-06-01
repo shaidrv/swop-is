@@ -1,7 +1,11 @@
 <template>
   <div class="app__container">
-    <AppGive :from-list="fromList" />
-    <!-- <AppGet /> -->
+    <AppGive
+      v-if="!selectedFromDir"
+      :from-list="fromList"
+      @selectDir="selectDirection"
+    />
+    <AppGet v-else-if="selectedFromDir" />
     <!-- <AppForm /> -->
   </div>
 </template>
@@ -15,6 +19,7 @@ export default defineComponent({
     return {
       fromList: [],
       toList: [],
+      selectedFromDir: null,
     }
   },
 
@@ -26,7 +31,13 @@ export default defineComponent({
     // console.log(this.fromList)
   },
 
-  methods: {},
+  methods: {
+    selectDirection(dir) {
+      console.log(dir)
+      this.selectedFromDir = dir
+      console.log(this.selectedFromDir)
+    },
+  },
 })
 </script>
 
