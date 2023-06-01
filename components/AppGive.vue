@@ -44,7 +44,7 @@ export default defineComponent({
   emits: ['selectFromDir'],
   methods: {
     handleClick(dir) {
-      this.$emit('selectFromDir', dir.ids[0])
+      this.$emit('selectFromDir', dir)
     },
   },
 })

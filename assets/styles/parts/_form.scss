@@ -1,3 +1,4 @@
+@import './fonts';
 .form {
   padding: 30px;
   &__row {
@@ -11,7 +12,6 @@
 
   &__title {
     color: #ffffff;
-
     font-size: 16px;
     line-height: 19px;
     margin: 0 0 10px 0;
@@ -21,14 +21,48 @@
   &__field {
     height: 52px;
     background: #1d1e25;
-
     margin: 0 0 10px 0;
     padding: 0 10px 0 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__item {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__icon {
+    margin: 0 10px 0 0;
+    width: 32px;
+    height: 32px;
+  }
+
+  &__name {
+    font-family: 'Gilroy-Semibold';
+    font-weight: 600;
+  }
+
+  &__input {
+    font-size: 16px;
+    line-height: 19px;
+    background-color: #1d1e25;
+    font-size: 20px;
+    line-height: 24px;
+    outline: none;
+    border: none;
+    font-family: 'Gilroy-Semibold';
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #ffffff;
+    text-align: right;
   }
 
   &__limits {
     color: #757981;
-
     font-family: 'Gilroy-Regular';
     font-size: 15px;
     line-height: 17px;
@@ -37,26 +71,6 @@
   }
 
   &__limit {
-  }
-}
-
-.field {
-  &__item {
-    color: #ffffff;
-
-    &__icon {
-      margin: 0 10px 0 0;
-    }
-
-    &__name {
-      font-size: 16px;
-      line-height: 19px;
-    }
-  }
-
-  &__price {
-    font-size: 20px;
-    line-height: 24px;
   }
 }
 
@@ -128,6 +142,10 @@
       top: 9%;
       cursor: pointer;
     }
+    &.checked::before {
+      background: url('/static/img/checkmark.svg') center no-repeat;
+      background-color: #0060f7;
+    }
   }
 
   &__link {
@@ -150,4 +168,14 @@
   background-repeat: no-repeat;
   background-position: 13% center;
   margin: 0 auto;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
 }

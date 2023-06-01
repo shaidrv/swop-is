@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { Direction } from '../types/direction'
+import { Direction } from '~/types/direction'
+import { Form } from '~/types/form'
 
 export class DirectionsApi {
   private static instance: DirectionsApi
@@ -36,44 +37,45 @@ export class DirectionsApi {
     return DirectionsApi.instance
   }
 
-  public async getFrom(): Promise<Direction[]> {
-    const { data, status } = await axios.get(DirectionsApi.fromUrl, {
+  private async request(url: string): Promise<any> {
+    const { data, status } = await axios.get(url, {
       headers: {
         Accept: 'application/json',
       },
     })
 
+    return data
+  }
+
+  private getFilteredDirections(directionIds: number[]): Direction[] {
     return this.directions.filter((value: Direction): boolean => {
       const intersection = value.ids.filter((index: number): boolean => {
-        return (data as Array<number>).includes(index)
+        return directionIds.includes(index)
       })
 
       return intersection.length > 0
     })
+  }
+
+  public async getFrom(): Promise<Direction[]> {
+    const data = await this.request(DirectionsApi.fromUrl)
+
+    return this.getFilteredDirections(data)
   }
 
   public async getTo(from: number): Promise<Direction[]> {
-    const { data, status } = await axios.get(
-      DirectionsApi.toUrl.replace('{from_id}', String(from)),
-      {
-        headers: {
-          Accept: 'application/json',
-        },
-      }
+    const data = await this.request(
+      DirectionsApi.toUrl.replace('{from_id}', String(from))
     )
 
-    return this.directions.filter((value: Direction): boolean => {
-      const intersection = value.ids.filter((index: number): boolean => {
-        return (data as Array<number>).includes(index)
-      })
-
-      return intersection.length > 0
-    })
+    return this.getFilteredDirections(data)
   }
-}
 
-export async function loadFrom(): Promise<Direction[]> {
-  const api = await DirectionsApi.getInstance()
-
-  return api.getFrom()
+  public async getForm(from: number, to: number): Promise<Form> {
+    return await this.request(
+      DirectionsApi.formUrl
+        .replace('{from_id}', String(from))
+        .replace('{to_id}', String(to))
+    )
+  }
 }

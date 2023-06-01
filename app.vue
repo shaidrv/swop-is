@@ -10,7 +10,12 @@
       :to-list="toList"
       @selectToDir="selectToDirection"
     />
-    <AppForm v-if="selectedFromDir && selectedToDir" />
+    <AppForm
+      v-if="selectedFromDir && selectedToDir && form"
+      :selected-from-dir="selectedFromDir"
+      :selected-to-dir="selectedToDir"
+      :form="form"
+    />
   </div>
 </template>
 
@@ -26,6 +31,7 @@ export default defineComponent({
       selectedFromDir: null,
       selectedToDir: null,
       api: null,
+      form: null,
     }
   },
 
@@ -37,11 +43,18 @@ export default defineComponent({
   methods: {
     async selectFromDirection(dir) {
       this.selectedFromDir = dir
-      this.toList = await this.api.getTo(this.selectedFromDir)
+      this.toList = await this.api.getTo(this.selectedFromDir.ids[0])
     },
 
-    selectToDirection(dir) {
+    async selectToDirection(dir) {
       this.selectedToDir = dir
+      this.form = await this.api.getForm(
+        this.selectedFromDir.ids[0],
+        this.selectedToDir.ids[0]
+      )
+      console.log(this.form)
+      console.log(this.form.from.min)
+      console.log(this.form.from.max)
     },
   },
 })
