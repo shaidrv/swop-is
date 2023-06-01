@@ -13,16 +13,26 @@
         </div>
       </div>
       <ul class="list__body">
-        <li class="list__item item">
+        <li class="list__item item" @click="$emit('selectTicker', ticker)">
           <img src="item__img" alt="" />
           <div class="item__name">
-            <div class="item__title"></div>
-            <div class="item__subtitle"></div>
+            <div class="item__title">BTC</div>
+            <div class="item__subtitle">BitCoin</div>
           </div>
         </li>
       </ul>
     </div>
   </div>
 </template>
+
+<script>
+export default defineComponent({
+  // data() {
+  //   return {
+  //     selectedTicker: null,
+  //   }
+  // },
+})
+</script>
 
 <style lang="scss"></style>

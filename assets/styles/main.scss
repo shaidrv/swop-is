@@ -1,0 +1,36 @@
+@import '../../node_modules/scss-reset/reset';
+@import 'parts/list';
+@import 'parts/fonts';
+@import 'parts/form';
+
+.app__container {
+  background-color: #0c0c0c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 30px;
+
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  max-width: calc(100vw - 19%);
+
+  &__img {
+    padding: 0 15px 0 0;
+  }
+
+  &__input {
+    border: none;
+    color: #757981;
+    background: #16171c;
+    width: 100%;
+    font-size: 16px;
+    line-height: 19px;
+    font-family: 'Gilroy-Medium';
+  }
+}
