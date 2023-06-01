@@ -4,7 +4,11 @@
       <div class="list__header">
         <h2 class="list__title">Отдаете</h2>
         <div class="list__field field">
-          <img class="field__img" src="../static/img/search.svg" alt="" />
+          <img
+            class="field__img"
+            src="../static/img/search.svg"
+            alt="search icon"
+          />
           <input
             class="field__input input"
             type="text"
@@ -16,7 +20,7 @@
         <li
           class="list__item item"
           v-for="dir in fromList"
-          :key="dir.currency"
+          :key="dir.name"
           @click="handleClick(dir)"
         >
           <img class="item__img" alt="currency icon" :src="dir.logo.simple" />
@@ -37,11 +41,10 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: ['fromList'],
-  emits: ['selectDir'],
+  emits: ['selectFromDir'],
   methods: {
     handleClick(dir) {
-      this.$emit('selectDir', dir)
-      // console.log(dir)
+      this.$emit('selectFromDir', dir.ids[0])
     },
   },
 })

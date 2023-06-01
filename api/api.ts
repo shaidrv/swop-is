@@ -62,8 +62,6 @@ export class DirectionsApi {
       }
     )
 
-    console.log(data)
-
     return this.directions.filter((value: Direction): boolean => {
       const intersection = value.ids.filter((index: number): boolean => {
         return (data as Array<number>).includes(index)

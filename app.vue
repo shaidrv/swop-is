@@ -3,9 +3,13 @@
     <AppGive
       v-if="!selectedFromDir"
       :from-list="fromList"
-      @selectDir="selectDirection"
+      @selectFromDir="selectFromDirection"
     />
-    <AppGet v-else-if="selectedFromDir" />
+    <AppGet
+      v-else-if="selectedFromDir"
+      :to-list="toList"
+      @selectToDir="selectToDirection"
+    />
     <!-- <AppForm /> -->
   </div>
 </template>
@@ -20,22 +24,25 @@ export default defineComponent({
       fromList: [],
       toList: [],
       selectedFromDir: null,
+      selectedToDir: null,
+      api: null,
     }
   },
 
   async mounted() {
-    const api = await DirectionsApi.getInstance()
-    this.fromList = await api.getFrom()
-    this.toList = await api.getTo(7)
-    // console.log(this.fromList)
-    // console.log(this.fromList)
+    this.api = await DirectionsApi.getInstance()
+    this.fromList = await this.api.getFrom()
   },
 
   methods: {
-    selectDirection(dir) {
-      console.log(dir)
+    async selectFromDirection(dir) {
       this.selectedFromDir = dir
-      console.log(this.selectedFromDir)
+      this.toList = await this.api.getTo(this.selectedFromDir)
+    },
+
+    selectToDirection(dir) {
+      this.selectedToDir = dir
+      // console.log(this.selectedToDir)
     },
   },
 })
