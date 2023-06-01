@@ -1,16 +1,16 @@
 <template>
   <div class="app__container">
     <AppGive
-      v-if="!selectedFromDir"
+      v-if="!selectedFromDir && !selectedToDir"
       :from-list="fromList"
       @selectFromDir="selectFromDirection"
     />
     <AppGet
-      v-else-if="selectedFromDir"
+      v-if="selectedFromDir && !selectedToDir"
       :to-list="toList"
       @selectToDir="selectToDirection"
     />
-    <!-- <AppForm /> -->
+    <AppForm v-if="selectedFromDir && selectedToDir" />
   </div>
 </template>
 
@@ -42,7 +42,6 @@ export default defineComponent({
 
     selectToDirection(dir) {
       this.selectedToDir = dir
-      // console.log(this.selectedToDir)
     },
   },
 })
