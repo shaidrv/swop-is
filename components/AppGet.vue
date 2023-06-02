@@ -19,12 +19,16 @@
       <ul class="list__body">
         <li
           class="list__item item"
-          v-for="dir in toList"
-          :key="dir.name"
-          @click="handleClick(dir)"
+          v-for="direction in toList"
+          :key="direction.name"
+          @click="handleClick(direction)"
         >
-          <img class="item__img" :src="dir.logo.simple" alt="currency icon" />
-          <div class="item__name">{{ dir.name }}</div>
+          <img
+            class="item__img"
+            :src="direction.logo.simple"
+            alt="currency icon"
+          />
+          <div class="item__name">{{ direction.name }}</div>
         </li>
       </ul>
     </div>
@@ -37,8 +41,8 @@ export default defineComponent({
   props: ['toList'],
   emits: ['selectToDir'],
   methods: {
-    handleClick(dir) {
-      this.$emit('selectToDir', dir)
+    handleClick(direction) {
+      this.$emit('selectToDir', direction)
     },
   },
 })

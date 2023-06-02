@@ -1,21 +1,24 @@
 <template>
   <div class="app__container">
-    <AppGive
-      v-if="!selectedFromDir && !selectedToDir"
-      :from-list="fromList"
-      @selectFromDir="selectFromDirection"
-    />
-    <AppGet
-      v-if="selectedFromDir && !selectedToDir"
-      :to-list="toList"
-      @selectToDir="selectToDirection"
-    />
-    <AppForm
-      v-if="selectedFromDir && selectedToDir && form"
-      :selected-from-dir="selectedFromDir"
-      :selected-to-dir="selectedToDir"
-      :form="form"
-    />
+    <AppLoader v-if="loading" />
+    <template v-else>
+      <AppGive
+        v-if="!selectedFromDir && !selectedToDir"
+        :from-list="fromList"
+        @selectFromDirection="selectFromDirection"
+      />
+      <AppGet
+        v-if="selectedFromDir && !selectedToDir"
+        :to-list="toList"
+        @selectToDir="selectToDirection"
+      />
+      <AppForm
+        v-if="selectedFromDir && selectedToDir && form"
+        :selected-from-direction="selectedFromDir"
+        :selected-to-direction="selectedToDir"
+        :form="form"
+      />
+    </template>
   </div>
 </template>
 
@@ -32,29 +35,32 @@ export default defineComponent({
       selectedToDir: null,
       api: null,
       form: null,
+      loading: true,
     }
   },
 
   async mounted() {
     this.api = await DirectionsApi.getInstance()
     this.fromList = await this.api.getFrom()
+    this.loading = false
   },
 
   methods: {
-    async selectFromDirection(dir) {
-      this.selectedFromDir = dir
+    async selectFromDirection(direction) {
+      this.loading = true
+      this.selectedFromDir = direction
       this.toList = await this.api.getTo(this.selectedFromDir.ids[0])
+      this.loading = false
     },
 
-    async selectToDirection(dir) {
-      this.selectedToDir = dir
+    async selectToDirection(direction) {
+      this.loading = true
+      this.selectedToDir = direction
       this.form = await this.api.getForm(
         this.selectedFromDir.ids[0],
         this.selectedToDir.ids[0]
       )
-      console.log(this.form)
-      console.log(this.form.from.min)
-      console.log(this.form.from.max)
+      this.loading = false
     },
   },
 })

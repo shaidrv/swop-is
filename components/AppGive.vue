@@ -13,22 +13,27 @@
             class="field__input input"
             type="text"
             placeholder="Поиск валюты"
+            v-model="search"
           />
         </div>
       </div>
       <ul class="list__body">
         <li
           class="list__item item"
-          v-for="dir in fromList"
-          :key="dir.name"
-          @click="handleClick(dir)"
+          v-for="direction in listToRender"
+          :key="direction.name"
+          @click="handleClick(direction)"
         >
-          <img class="item__img" alt="currency icon" :src="dir.logo.simple" />
+          <img
+            class="item__img"
+            alt="currency icon"
+            :src="direction.logo.simple"
+          />
           <div class="item__name">
             <div class="item__title">
-              {{ dir.currency.toString().toUpperCase() }}
+              {{ direction.currency.toString().toUpperCase() }}
             </div>
-            <div class="item__subtitle">{{ dir.name }}</div>
+            <div class="item__subtitle">{{ direction.name }}</div>
           </div>
         </li>
       </ul>
@@ -37,14 +42,28 @@
 </template>
 
 <script>
+import { list } from 'postcss'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: ['fromList'],
-  emits: ['selectFromDir'],
+  emits: ['selectFromDirection'],
+  data() {
+    return {
+      search: '',
+    }
+  },
   methods: {
-    handleClick(dir) {
-      this.$emit('selectFromDir', dir)
+    handleClick(direction) {
+      this.$emit('selectFromDirection', direction)
+    },
+  },
+  computed: {
+    listToRender() {
+      if (this.search) {
+        return this.fromList.filter((i) => i.name.includes(this.search))
+      }
+      return this.fromList
     },
   },
 })

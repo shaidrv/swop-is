@@ -8,10 +8,10 @@
             <div class="form__item">
               <img
                 class="form__icon"
-                :src="selectedFromDir.logo.simple"
+                :src="selectedFromDirection.logo.simple"
                 alt="currency icon"
               />
-              <div class="form__name">{{ dirFromName }}</div>
+              <div class="form__name">{{ directionFromName }}</div>
             </div>
             <div class="form__price">
               <input type="number" class="form__input" v-model="fromValue" />
@@ -19,10 +19,10 @@
           </div>
           <div class="form__limits">
             <div class="form__limit">
-              Мин.: {{ dirFromMin }} {{ dirFromCurrency }}
+              Мин.: {{ directionFromMin }} {{ directionFromCurrency }}
             </div>
             <div class="form__limit">
-              Макс.: {{ dirFromMax }} {{ dirFromCurrency }}
+              Макс.: {{ directionFromMax }} {{ directionFromCurrency }}
             </div>
           </div>
         </div>
@@ -32,10 +32,10 @@
             <div class="form__item">
               <img
                 class="form__icon"
-                :src="selectedToDir.logo.simple"
+                :src="selectedToDirection.logo.simple"
                 alt="currency icon"
               />
-              <div class="form__name">{{ dirToName }}</div>
+              <div class="form__name">{{ directionToName }}</div>
             </div>
             <div class="form__price">
               <input :value="toValue" type="number" class="form__input" />
@@ -43,40 +43,30 @@
           </div>
           <div class="form__limits">
             <div class="form__limit">
-              Мин.: {{ dirToMin }} {{ dirToCurrency }}
+              Мин.: {{ directionToMin }} {{ directionToCurrency }}
             </div>
             <div class="form__limit">
-              Макс.: {{ dirToMax }} {{ dirToCurrency }}
+              Макс.: {{ directionToMax }} {{ directionToCurrency }}
             </div>
           </div>
         </div>
-
         <div class="contacts">
           <h2 class="contacts__title">Ваши реквизиты</h2>
-          <div class="contacts__field field">
-            <img
-              class="contacts__icon contacts__icon_fullname"
-              src="../static/img/avatar.svg"
-              alt=""
-            />
-            <input
-              class="contacts__input"
-              type="text"
-              placeholder="ФИО получателя"
-            />
-          </div>
-          <div class="contacts__field field">
-            <img
-              class="contacts__icon contacts__icon_email"
-              src="../static/img/mail.svg"
-              alt=""
-            />
-            <input
-              class="contacts__input"
-              type="text"
-              placeholder="Почта получателя"
-            />
-          </div>
+          <template v-for="input in inputs" :key="input.name">
+            <div class="contacts__field field">
+              <img
+                class="contacts__icon"
+                src="../static/img/avatar.svg"
+                alt=""
+              />
+              <input
+                :name="input.name"
+                class="contacts__input"
+                :type="input.type"
+                :placeholder="input.receive.placeholder"
+              />
+            </div>
+          </template>
         </div>
         <div class="agreement">
           <div
@@ -100,7 +90,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  props: ['selectedFromDir', 'selectedToDir', 'form'],
+  props: ['selectedFromDirection', 'selectedToDirection', 'form'],
   data() {
     return {
       fromValue: '',
@@ -108,34 +98,34 @@ export default defineComponent({
     }
   },
   computed: {
-    // isChecked() {
-    //   return !this.checked
-    // },
+    inputs() {
+      return this.form.structure.from.input.concat(this.form.structure.to.input)
+    },
     toValue() {
       return (this.fromValue * this.form.course).toFixed(this.form.to.round)
     },
-    dirToCurrency() {
-      return this.selectedToDir.currency.toString().toUpperCase()
+    directionToCurrency() {
+      return this.selectedToDirection.currency.toString().toUpperCase()
     },
-    dirFromName() {
-      return this.selectedFromDir.name.toString()
+    directionFromName() {
+      return this.selectedFromDirection.name.toString()
     },
-    dirFromCurrency() {
-      return this.selectedFromDir.currency.toString().toUpperCase()
+    directionFromCurrency() {
+      return this.selectedFromDirection.currency.toString().toUpperCase()
     },
-    dirToName() {
-      return this.selectedToDir.name.toString()
+    directionToName() {
+      return this.selectedToDirection.name.toString()
     },
-    dirFromMin() {
+    directionFromMin() {
       return this.form.from.min
     },
-    dirFromMax() {
+    directionFromMax() {
       return this.form.from.max
     },
-    dirToMin() {
+    directionToMin() {
       return this.form.to.min
     },
-    dirToMax() {
+    directionToMax() {
       return this.form.to.max
     },
   },
