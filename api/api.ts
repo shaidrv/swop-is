@@ -19,13 +19,7 @@ export class DirectionsApi {
   private constructor() {}
 
   private async init() {
-    const { data, status } = await axios.get(DirectionsApi.directionsUrl, {
-      headers: {
-        Accept: 'application/json',
-      },
-    })
-
-    this.directions = data
+    this.directions = await this.request(DirectionsApi.directionsUrl)
   }
 
   public static async getInstance(): Promise<DirectionsApi> {
@@ -49,9 +43,11 @@ export class DirectionsApi {
 
   private getFilteredDirections(directionIds: number[]): Direction[] {
     return this.directions.filter((value: Direction): boolean => {
-      const intersection = value.ids.filter((index: number): boolean => {
-        return directionIds.includes(index)
-      })
+      const intersection: number[] = value.ids.filter(
+        (index: number): boolean => {
+          return directionIds.includes(index)
+        }
+      )
 
       return intersection.length > 0
     })

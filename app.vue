@@ -1,25 +1,27 @@
 <template>
-  <div class="app__container">
-    <AppLoader v-if="loading" />
-    <template v-else>
-      <AppGive
-        v-if="!selectedFromDir && !selectedToDir"
-        :from-list="fromList"
-        @selectFromDirection="selectFromDirection"
-      />
-      <AppGet
-        v-if="selectedFromDir && !selectedToDir"
-        :to-list="toList"
-        @selectToDir="selectToDirection"
-      />
-      <AppForm
-        v-if="selectedFromDir && selectedToDir && form"
-        :selected-from-direction="selectedFromDir"
-        :selected-to-direction="selectedToDir"
-        :form="form"
-      />
-    </template>
-  </div>
+  <main>
+    <div class="app__container">
+      <AppLoader v-if="loading" />
+      <template v-else>
+        <AppGive
+          v-if="!selectedFromDir && !selectedToDir"
+          :from-list="fromList"
+          @selectFromDirection="selectFromDirection"
+        />
+        <AppGet
+          v-if="selectedFromDir && !selectedToDir"
+          :to-list="toList"
+          @selectToDir="selectToDirection"
+        />
+        <AppForm
+          v-if="selectedFromDir && selectedToDir && form"
+          :selected-from-direction="selectedFromDir"
+          :selected-to-direction="selectedToDir"
+          :form="form"
+        />
+      </template>
+    </div>
+  </main>
 </template>
 
 <script>
